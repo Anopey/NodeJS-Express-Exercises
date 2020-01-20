@@ -1,1 +1,5 @@
 <h1> Hi </h1>
+<h2> Here is a list of pages that you can navigate to:</h2>
+<% basicPages.forEach(function(page){ %> 
+<li><font size = "3em"> <%= page.extension %> - <%= page.description %> </font></li>
+<% }); %> 
