@@ -1,0 +1,19 @@
+<%- include("partials/basicHeader") %>
+
+<h1> Friends List! </h1>
+
+<h2 id = "lister"> <% if(friends.length == 0){ %> You got no friends :( 
+    <% }else{ %> 
+        Here are your friends: <% } %> 
+ </h2>
+
+ <% friends.forEach(function(friend){ %>
+    <li> <%= friend %> </li>
+ <% }) %>
+
+ <form action = "/friend/addfriend" method="POST"> 
+     <input type = "text" name = "friendName" placeholder= "name">
+     <button> I made a new friend! </button>
+</form>
+
+<%- include("partials/basicFooter") %>
