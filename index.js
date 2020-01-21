@@ -14,12 +14,14 @@ class basicPage {
      * @param {string} description 
      * @param {string} extension 
      * @param {string} fileName
+     * @param {function} specialFunction
      */
-    constructor(description, extension, fileName, argumentsDictionary) {
+    constructor(description, extension, fileName, argumentsDictionary, specialFunction) {
         this.description = description;
         this.extension = extension;
         this.fileName = fileName;
         this.argumentsDictionary = argumentsDictionary;
+        this.specialFunction = specialFunction;
     }
 
 }
@@ -28,16 +30,20 @@ class basicPage {
 var basicPages = [new basicPage("The home page.", "/", "home.ejs"),
 new basicPage("static Hi page.", "/hi", "hi.ejs"),
 new basicPage("hi page, but it can say your name!", "/hi/:name", "hiDynamic.ejs", { name: "" }), //if left as empty string, the name of the key will be used within params
-new basicPage("a list made just for your friends :)", "/friends", "friends.ejs")]; 
+new basicPage("a list made just for your friends :)", "/friends", "friends.ejs")];
 
 basicPages[0].argumentsDictionary = { basicPages: basicPages };
 
 //info provided by some basic pages
-var friends = [];
-basicPages[3].argumentsDictionary = {friends: friends};
+var friendsMap = [];
+var maxNumberOfIpsHoldingFriends = 1000;
+basicPages[3].specialFunction = friendGetSpecial;
 
 basicPages.forEach(function (page) {
     app.get(page.extension, function (req, res) {
+        if (page.specialFunction != null) {
+            page.specialFunction(req, res);
+        }
         var dynamicParams = [];
         for (var key in page.argumentsDictionary) {
             if (page.argumentsDictionary[key] === "") {
@@ -58,17 +64,38 @@ basicPages.forEach(function (page) {
 
 /* #region basic posts */
 
-app.post("/friend/addfriend", function(req, res) {
+app.post("/friend/addfriend", function (req, res) {
     var friendName = req.body.friendName;
-    if(friendName != null){
-    console.log("A post request to friend/addfriend has been made with data " + friendName);
-    friends.push(friendName);
+    if (friendName != null) {
+        console.log("A post request to friend/addfriend has been made with data " + friendName);
+        if(!(req.ip in friendsMap)){
+            friendsMap[req.ip] = [];
+            if(friendsMap.length > maxNumberOfIpsHoldingFriends){
+                //we have exceeded maximum number of ips holding friends!
+                friendsMap.splice(0,1);
+            }
+        }
+        friendsMap[req.ip].push(friendName);
     }
     res.redirect("/friends");
 });
 
 /* #endregion */
 
+/* #region basic special functions */
+
+function friendGetSpecial(req, res){
+    if(!(req.ip in friendsMap)){
+        friendsMap[req.ip] = [];
+        if(friendsMap.length > maxNumberOfIpsHoldingFriends){
+            //we have exceeded maximum number of ips holding friends!
+            friendsMap.splice(0,1);
+        }
+    }
+    basicPages[3].argumentsDictionary = { friends: friendsMap[req.ip] };
+}
+
+/* #endregion */
 
 app.listen(3000, function () {
     console.log("Server is listening on port 3000...");
