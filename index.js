@@ -5,6 +5,8 @@ const request = require("request");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+require("dotenv").config();
+
 /* #region basic pages */
 
 class basicPage {
@@ -94,7 +96,7 @@ app.post("/languageDetector", (req, res) => {
         url: 'https://microsoft-azure-text-analytics-v1.p.rapidapi.com/languages',
         headers: {
           'x-rapidapi-host': 'microsoft-azure-text-analytics-v1.p.rapidapi.com',
-          'x-rapidapi-key': ,
+          'x-rapidapi-key': process.env.RAPID_API_KEY,
           'content-type': 'application/json',
           accept: 'application/json'
         },

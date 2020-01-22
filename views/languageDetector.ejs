@@ -8,4 +8,8 @@
 <button>Detect language!</button>
 </form>
 
+<% if(lang !== null){ %>
+    <h2> Last detected language was <%= lang %> </h2>
+<% } %>
+
 <%- include("partials/basicFooter") %>
