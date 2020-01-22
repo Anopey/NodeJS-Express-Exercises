@@ -107,7 +107,7 @@ app.post("/languagedetector", (req, res) => {
       };
     
 
-    var lang = "UNABLE TO GET LANGUAGE DUE TO API ISSUES, SORRY! YOU CAN USE YOUR OWN API KEY BY RUNNING YOUR OWN VERSION OF THE SERVER AS FOUND ON GITHUB";
+    var lang = "UNABLE TO GET LANGUAGE DUE TO API ISSUES, SORRY! WE MOST LIKELY RAN OUT OF THE FREEMIUM SUBSCRIPTION QUOTA. YOU CAN USE YOUR OWN API KEY BY RUNNING YOUR OWN VERSION OF THE SERVER AS FOUND ON GITHUB";
     var confidence = 0;
 
     request(languageDetectorApiOptions, (error, response, body) => {
