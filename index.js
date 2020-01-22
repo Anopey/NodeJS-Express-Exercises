@@ -31,18 +31,18 @@ class basicPage {
 }
 
 
-var basicPages = [new basicPage("The home page.", "/", "home.ejs"),
+const basicPages = [new basicPage("The home page.", "/", "home.ejs"),
 new basicPage("static Hi page.", "/hi", "hi.ejs"),
 new basicPage("hi page, but it can say your name!", "/hi/:name", "hiDynamic.ejs", { name: "" }), //if left as empty string, the name of the key will be used within params
 new basicPage("a list made just for your friends :)", "/friends", "friends.ejs", null , friendGetSpecial),
-new basicPage("A tool to detect the language in the text you enter!", "/languagedetector", "languageDetector.ejs", {lang : null})];
+new basicPage("A tool to detect the language in the text you enter!", "/languagedetector", "languageDetector.ejs", {lang : null, confidence: 0}, languageDetectorInit, langaugeDetectorEnd)];
 
 basicPages[0].argumentsDictionary = { basicPages: basicPages };
 
 //info provided by some basic pages
 var friendsMap = [];
 var maxNumberOfIpsHoldingFriends = 1000;
-
+var basicLanguageQueryAnswers = {lang: null, confidence: 0}
 
 basicPages.forEach(function (page) {
     app.get(page.extension, (req, res) => {
@@ -89,7 +89,7 @@ app.post("/friend/addfriend", (req, res) => {
 });
 
 
-app.post("/languageDetector", (req, res) => {
+app.post("/languagedetector", (req, res) => {
     var text = req.body.text;
     var languageDetectorApiOptions = {
         method: 'POST',
@@ -106,10 +106,23 @@ app.post("/languageDetector", (req, res) => {
         json: true
       };
     
+
+    var lang = "UNABLE TO GET LANGUAGE DUE TO API ISSUES, SORRY! YOU CAN USE YOUR OWN API KEY BY RUNNING YOUR OWN VERSION OF THE SERVER AS FOUND ON GITHUB";
+    var confidence = 0;
+
     request(languageDetectorApiOptions, (error, response, body) => {
-        if (error) throw new Error(error);
-    
-        console.log(body);
+
+        if (error){
+            console.log(error);
+            res.redirect("/languagedetector");
+        }else{
+            lang = body.documents[0].detectedLanguages[0].name;
+            confidence = body.documents[0].detectedLanguages[0].score;
+            console.log(`An API call through a POST request on /languagedetector has been made with input "${text}" and output lang:${lang}, confidence:${confidence}` );
+            basicLanguageQueryAnswers.lang = lang;
+            basicLanguageQueryAnswers.confidence = confidence;
+            res.redirect("/languagedetector");
+        }
     });
 });
 
@@ -126,6 +139,17 @@ function friendGetSpecial(req, res){
         }
     }
     basicPages[3].argumentsDictionary = { friends: friendsMap[req.ip] };
+}
+
+function languageDetectorInit(req, res) {
+    basicPages[4].argumentsDictionary.lang = basicLanguageQueryAnswers.lang;
+    basicPages[4].argumentsDictionary.confidence = basicLanguageQueryAnswers.confidence;
+    console.log("yesu yesu yesu");
+}
+
+function langaugeDetectorEnd(req, res) {
+    basicLanguageQueryAnswers.lang = null
+    basicLanguageQueryAnswers.confidence = 0;
 }
 
 /* #endregion */
