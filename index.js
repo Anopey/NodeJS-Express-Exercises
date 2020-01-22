@@ -1,7 +1,7 @@
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
-
+var request = require("request");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
@@ -30,17 +30,18 @@ class basicPage {
 var basicPages = [new basicPage("The home page.", "/", "home.ejs"),
 new basicPage("static Hi page.", "/hi", "hi.ejs"),
 new basicPage("hi page, but it can say your name!", "/hi/:name", "hiDynamic.ejs", { name: "" }), //if left as empty string, the name of the key will be used within params
-new basicPage("a list made just for your friends :)", "/friends", "friends.ejs")];
+new basicPage("a list made just for your friends :)", "/friends", "friends.ejs", null , friendGetSpecial),
+new basicPage("A tool to detect the language in the text you enter!", "/languagedetector", "languageDetector.ejs",)];
 
 basicPages[0].argumentsDictionary = { basicPages: basicPages };
 
 //info provided by some basic pages
 var friendsMap = [];
 var maxNumberOfIpsHoldingFriends = 1000;
-basicPages[3].specialFunction = friendGetSpecial;
+
 
 basicPages.forEach(function (page) {
-    app.get(page.extension, function (req, res) {
+    app.get(page.extension, (req, res) => {
         if (page.specialFunction != null) {
             page.specialFunction(req, res);
         }
@@ -64,7 +65,7 @@ basicPages.forEach(function (page) {
 
 /* #region basic posts */
 
-app.post("/friend/addfriend", function (req, res) {
+app.post("/friend/addfriend", (req, res) => {
     var friendName = req.body.friendName;
     if (friendName != null) {
         console.log("A post request to friend/addfriend has been made with data " + friendName);

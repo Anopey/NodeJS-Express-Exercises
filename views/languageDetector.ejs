@@ -1,0 +1,11 @@
+<%- include("partials/basicHeader") %>
+
+
+<h1> Automatically detect the language used in the text you enter! </h1>
+
+<form action= "/languageDetector" method = "POST">
+<input type = "text" placeholder="text" name = "text">
+<button>Detect language!</button>
+</form>
+
+<%- include("partials/basicFooter") %>
