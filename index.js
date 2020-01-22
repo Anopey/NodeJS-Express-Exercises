@@ -1,7 +1,7 @@
-var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
-var request = require("request");
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+const request = require("request");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
@@ -15,13 +15,15 @@ class basicPage {
      * @param {string} extension 
      * @param {string} fileName
      * @param {function} specialFunction
+     * @param {function} endFunction
      */
-    constructor(description, extension, fileName, argumentsDictionary, specialFunction) {
+    constructor(description, extension, fileName, argumentsDictionary, specialFunction, endFunction) {
         this.description = description;
         this.extension = extension;
         this.fileName = fileName;
         this.argumentsDictionary = argumentsDictionary;
         this.specialFunction = specialFunction;
+        this.endFunction = endFunction;
     }
 
 }
@@ -31,7 +33,7 @@ var basicPages = [new basicPage("The home page.", "/", "home.ejs"),
 new basicPage("static Hi page.", "/hi", "hi.ejs"),
 new basicPage("hi page, but it can say your name!", "/hi/:name", "hiDynamic.ejs", { name: "" }), //if left as empty string, the name of the key will be used within params
 new basicPage("a list made just for your friends :)", "/friends", "friends.ejs", null , friendGetSpecial),
-new basicPage("A tool to detect the language in the text you enter!", "/languagedetector", "languageDetector.ejs",)];
+new basicPage("A tool to detect the language in the text you enter!", "/languagedetector", "languageDetector.ejs", {lang : null})];
 
 basicPages[0].argumentsDictionary = { basicPages: basicPages };
 
@@ -57,6 +59,9 @@ basicPages.forEach(function (page) {
         for (var key in dynamicParams) {
             page.argumentsDictionary[dynamicParams[key]] = "";
         }
+        if (page.endFunction != null) {
+            page.endFunction(req, res);
+        }
     });
 })
 
@@ -81,6 +86,31 @@ app.post("/friend/addfriend", (req, res) => {
     res.redirect("/friends");
 });
 
+
+app.post("/languageDetector", (req, res) => {
+    var text = req.body.text;
+    var languageDetectorApiOptions = {
+        method: 'POST',
+        url: 'https://microsoft-azure-text-analytics-v1.p.rapidapi.com/languages',
+        headers: {
+          'x-rapidapi-host': 'microsoft-azure-text-analytics-v1.p.rapidapi.com',
+          'x-rapidapi-key': ,
+          'content-type': 'application/json',
+          accept: 'application/json'
+        },
+        body: {
+          documents: [{id: 'sentence1', text: text}]
+        },
+        json: true
+      };
+    
+    request(languageDetectorApiOptions, (error, response, body) => {
+        if (error) throw new Error(error);
+    
+        console.log(body);
+    });
+});
+
 /* #endregion */
 
 /* #region basic special functions */
@@ -97,6 +127,8 @@ function friendGetSpecial(req, res){
 }
 
 /* #endregion */
+
+
 
 app.listen(3000, function () {
     console.log("Server is listening on port 3000...");
