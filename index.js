@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const request = require("request");
+const fs = require("fs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
@@ -45,9 +46,21 @@ basicPages[0].argumentsDictionary = { basicPages: basicPages };
 var friendsMap = [];
 var maxNumberOfIpsHoldingFriends = 1000;
 
-// /languagedetector
+// /languagedetector and its API call limits
 var basicLanguageQueryAnswers = {lang: null, confidence: 0}
-
+var maxApiCalls;
+var currentApiCalls;
+fs.readFile(".api_call_data", (err, buf) =>{
+    if(err){
+        console.log(err)
+        process.exit();
+    }
+    var output = (buf.toString());
+    var res = output.split("\n");
+    maxApiCalls = parseInt(res[0]);
+    currentApiCalls = parseInt(res[1]);
+    console.log(`max Microsoft Text Analytics api calls: ${maxApiCalls}\ncurrent api calls: ${currentApiCalls}`);
+});
 
 basicPages.forEach(function (page) {
     app.get(page.extension, (req, res) => {
