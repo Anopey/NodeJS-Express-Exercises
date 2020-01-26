@@ -50,17 +50,7 @@ var maxNumberOfIpsHoldingFriends = 1000;
 var basicLanguageQueryAnswers = {lang: null, confidence: 0}
 var maxApiCalls;
 var currentApiCalls;
-fs.readFile(".api_call_data", (err, buf) =>{
-    if(err){
-        console.log(err)
-        process.exit();
-    }
-    var output = (buf.toString());
-    var res = output.split("\n");
-    maxApiCalls = parseInt(res[0]);
-    currentApiCalls = parseInt(res[1]);
-    console.log(`max Microsoft Text Analytics api calls: ${maxApiCalls}\ncurrent api calls: ${currentApiCalls}`);
-});
+
 
 basicPages.forEach(function (page) {
     app.get(page.extension, (req, res) => {
@@ -125,23 +115,35 @@ app.post("/languagedetector", (req, res) => {
       };
     
 
-    var lang = "UNABLE TO GET LANGUAGE DUE TO API ISSUES, SORRY! WE MOST LIKELY RAN OUT OF THE FREEMIUM SUBSCRIPTION QUOTA OR YOU MADE TOO MANY REQUESTS. YOU CAN USE YOUR OWN API KEY BY RUNNING YOUR OWN VERSION OF THE SERVER AS FOUND ON GITHUB";
+    var lang = "UNABLE TO GET LANGUAGE DUE TO API ISSUES, SORRY! WE MOST LIKELY RAN OUT OF THE FREEMIUM SUBSCRIPTION QUOTA. YOU CAN USE YOUR OWN API KEY BY RUNNING YOUR OWN VERSION OF THE SERVER AS FOUND ON GITHUB";
     var confidence = 0;
+    if(currentApiCalls <= maxApiCalls){
+        request(languageDetectorApiOptions, (error, response, body) => {
 
-    request(languageDetectorApiOptions, (error, response, body) => {
-
-        if (error){
-            console.log(error);
-            res.redirect("/languagedetector");
-        }else{
-            lang = body.documents[0].detectedLanguages[0].name;
-            confidence = body.documents[0].detectedLanguages[0].score;
-            console.log(`An API call through a POST request on /languagedetector has been made with input "${text}" and output lang:${lang}, confidence:${confidence}` );
-            basicLanguageQueryAnswers.lang = lang;
-            basicLanguageQueryAnswers.confidence = confidence;
-            res.redirect("/languagedetector");
-        }
-    });
+            if (error){
+                console.log(error);
+                res.redirect("/languagedetector");
+            }else{
+                lang = body.documents[0].detectedLanguages[0].name;
+                confidence = body.documents[0].detectedLanguages[0].score;
+                console.log(`An API call through a POST request on /languagedetector has been made with input "${text}" and output lang:${lang}, confidence:${confidence}` );
+                basicLanguageQueryAnswers.lang = lang;
+                basicLanguageQueryAnswers.confidence = confidence;
+                currentApiCalls++;
+                fs.writeFile(".api_call_data", maxApiCalls.toString() + "\n" + currentApiCalls.toString(), (err) =>{
+                    if(err){
+                        console.log(err)
+                        process.exit();
+                    }
+                });
+                res.redirect("/languagedetector");
+            }
+        });
+    }else{
+        basicLanguageQueryAnswers.lang = lang;
+        basicLanguageQueryAnswers.confidence = confidence;
+        res.redirect("/languagedetector");
+    }
 });
 
 /* #endregion */
@@ -171,9 +173,18 @@ function langaugeDetectorEnd(req, res) {
 }
 
 /* #endregion */
-
-
-
-app.listen(3000, function () {
-    console.log("Server is listening on port 3000...");
-})
+//cant risk API calls limits not being loaded.
+fs.readFile(".api_call_data", (err, buf) =>{
+    if(err){
+        console.log(err)
+        process.exit();
+    }
+    var output = (buf.toString());
+    var res = output.split("\n");
+    maxApiCalls = parseInt(res[0]);
+    currentApiCalls = parseInt(res[1]);
+    console.log(`max Microsoft Text Analytics api calls: ${maxApiCalls}\ncurrent api calls: ${currentApiCalls}`);
+    const server = app.listen(3000, function () {
+        console.log("Server is listening on port 3000...");
+    })
+});
