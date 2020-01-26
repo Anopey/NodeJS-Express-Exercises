@@ -40,9 +40,14 @@ new basicPage("A tool to detect the language in the text you enter!", "/language
 basicPages[0].argumentsDictionary = { basicPages: basicPages };
 
 //info provided by some basic pages
+
+// /friends
 var friendsMap = [];
 var maxNumberOfIpsHoldingFriends = 1000;
+
+// /languagedetector
 var basicLanguageQueryAnswers = {lang: null, confidence: 0}
+
 
 basicPages.forEach(function (page) {
     app.get(page.extension, (req, res) => {
@@ -107,7 +112,7 @@ app.post("/languagedetector", (req, res) => {
       };
     
 
-    var lang = "UNABLE TO GET LANGUAGE DUE TO API ISSUES, SORRY! WE MOST LIKELY RAN OUT OF THE FREEMIUM SUBSCRIPTION QUOTA. YOU CAN USE YOUR OWN API KEY BY RUNNING YOUR OWN VERSION OF THE SERVER AS FOUND ON GITHUB";
+    var lang = "UNABLE TO GET LANGUAGE DUE TO API ISSUES, SORRY! WE MOST LIKELY RAN OUT OF THE FREEMIUM SUBSCRIPTION QUOTA OR YOU MADE TOO MANY REQUESTS. YOU CAN USE YOUR OWN API KEY BY RUNNING YOUR OWN VERSION OF THE SERVER AS FOUND ON GITHUB";
     var confidence = 0;
 
     request(languageDetectorApiOptions, (error, response, body) => {
