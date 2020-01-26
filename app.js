@@ -50,7 +50,7 @@ var maxNumberOfIpsHoldingFriends = 1000;
 var basicLanguageQueryAnswers = {lang: null, confidence: 0}
 var maxApiCalls;
 var currentApiCalls;
-
+var nextResetDate;
 
 basicPages.forEach(function (page) {
     app.get(page.extension, (req, res) => {
@@ -140,6 +140,7 @@ app.post("/languagedetector", (req, res) => {
             }
         });
     }else{
+        console.log("RAN OUT OF MICROSOFT TEXT ANALYTICS API CALLS")
         basicLanguageQueryAnswers.lang = lang;
         basicLanguageQueryAnswers.confidence = confidence;
         res.redirect("/languagedetector");
@@ -173,7 +174,7 @@ function langaugeDetectorEnd(req, res) {
 }
 
 /* #endregion */
-//cant risk API calls limits not being loaded.
+//cant risk API calls limits not being loaded. we are using this file because the course covers DB calls AFTER API calls.
 fs.readFile(".api_call_data", (err, buf) =>{
     if(err){
         console.log(err)
@@ -183,6 +184,9 @@ fs.readFile(".api_call_data", (err, buf) =>{
     var res = output.split("\n");
     maxApiCalls = parseInt(res[0]);
     currentApiCalls = parseInt(res[1]);
+    nextResetDate = new Date(res[2]);
+    nextResetDate.setUTCMonth(nextResetDate.getUTCMonth() + 1);
+    console.log("The next API reset date is: " + nextResetDate.toDateString());
     console.log(`max Microsoft Text Analytics api calls: ${maxApiCalls}\ncurrent api calls: ${currentApiCalls}`);
     const server = app.listen(3000, function () {
         console.log("Server is listening on port 3000...");

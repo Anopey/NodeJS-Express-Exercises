@@ -1,3 +1,4 @@
 Remove this line and enter Maximum API calls
 Remove this line and enter Current Api calls on separate line. 
+Remove this line and enter the start date of the current month of your API call subscription. Within the example format and UTC time. For example, 2020-01-22 08:24:20 UTC.
 Remove this line and remove the "_sample" portion in the file name.
