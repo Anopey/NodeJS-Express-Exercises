@@ -35,7 +35,7 @@ class basicPage {
 }
 
 
-const basicPages = [new basicPage("The home page.", "/", "home.ejs"),
+const basicPages = [new basicPage("The home page.", "/", "home.ejs", null, null, null, "/images/web_learning/showcase/root.png"),
 new basicPage("A fictional website for an anti-nuke advocacy group", "/nonukes", "nukes.html", null, null, null, "/images/web_learning/showcase/nonukes.png"),
 new basicPage("A fictional website for buying votes", "/votebuy", "voter.html", null, null, null, "/images/web_learning/showcase/democracy.png"),
 new basicPage("A tool to detect the language in the text you enter! I made it while learning about APIs. Check github for the backend code of everything, by the way.", "/languagedetector", "languageDetector.ejs", {lang : null, confidence: 0}, languageDetectorInit, langaugeDetectorEnd, "/images/web_learning/showcase/languagedetector.png"),
