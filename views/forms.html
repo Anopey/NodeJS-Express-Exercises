@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Registration Website</title>
+</head>
+<body>
+	<h1>Register</h1>
+	<form>
+		<label>
+			First Name:
+			<input type="text" name="first_name" required maxlength="20"> 
+		</label>
+		<label>
+			Last Name:
+			<input type="text" name="last_name" required maxlength="20"> 
+		</label>
+		<br>
+		<label>
+			Male
+			<input type="radio" name = "gender" value="male">
+		</label>
+		<label>
+			Female
+			<input type="radio" name = "gender" value="female">
+		</label>
+		<label>
+			Reptillian
+			<input type="radio" name = "gender" value="reptillian">
+		</label>
+		<br>
+		<label> 
+			Email:
+			<input type="email" name="email" required maxlength="75">
+		</label>
+		<label> 
+			Password:
+			<input type="password" name="password" required maxlength="20" minlength="8">
+		</label>
+		<br>
+		<label>
+			Birthday:
+			<select name = "day">
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+			</select>
+			<select name = "month">
+				<option>Jan</option>
+				<option>Feb</option>
+				<option>Mar</option>
+				<option>Apr</option>
+			</select>
+			<select name = "year">
+				<option>2001</option>
+				<option>2002</option>
+				<option>2003</option>
+				<option>2004</option>
+			</select>
+		</label>
+		<br>
+		<label>
+			I agree to the terms and conditions
+			<input type="radio" name="terms_conditions_agree">
+		</label>
+		<br>
+		<button>Submit</button>
+	</form>
+</body>
+</html>

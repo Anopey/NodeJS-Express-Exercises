@@ -1,0 +1,24 @@
+h1 {
+	text-align: center;
+	font-size: 60px;
+}
+
+table{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+td.right{
+	border-right: black 2px solid;
+    padding:50px;
+}
+
+td.down{
+	border-bottom: black 2px solid;
+    padding:50px;
+}
+
+td.left{
+	border-left: black 2px solid;
+    padding:50px;
+}

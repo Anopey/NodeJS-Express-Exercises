@@ -1,0 +1,62 @@
+@font-face{
+	font-family: Love;
+	src: url("JANDALoveAndRain.ttf");
+}
+
+#outl{
+	max-width: 1344px;
+	width : 70%;
+	border: solid #91877d 10px;
+	margin: 0 auto;
+	margin-bottom: 50px;
+}
+
+.article{
+	margin-left: 2.5%;
+	margin-right:2.5%;
+}
+
+.date{
+	color: #266fff;
+	text-transform: uppercase;
+	font-size: 20px;
+	letter-spacing: 0.2em;
+}
+
+.title{
+	font-size: 35px;
+	font-weight: 700;
+}
+
+.content{
+	font-size:25px;
+	font-family: Indie Flower;
+
+}
+
+.only{
+	margin-top:10px;
+}
+
+div.first{
+	border-left: 10px #91877d solid;
+	padding-left: 9px;
+}
+
+h2{
+	margin-top: 20px;
+	margin-bottom: -13px;
+	margin-left: 17%;
+	font-family: Love;
+    font-size: 120px;
+    color:#ffabe0;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #333;
+    background-image: linear-gradient(to right, #ccc, #333, #ccc);
+    margin-left:2.5%;
+    margin-right: 2.5%;
+}
