@@ -32,7 +32,7 @@ class basicPage {
 }
 
 
-const basicPages = [new basicPage("The old home page.", "/oldhome", "oldHome.ejs"),
+const basicPages = [new basicPage("The home page.", "/", "home.ejs"),
 new basicPage("static Hi page.", "/hi", "hi.ejs"),
 new basicPage("hi page, but it can say your name!", "/hi/:name", "hiDynamic.ejs", { name: "" }), //if left as empty string, the name of the key will be used within params
 new basicPage("a list made just for your friends :)", "/friends", "friends.ejs", null , friendGetSpecial),
