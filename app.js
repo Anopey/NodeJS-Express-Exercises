@@ -80,10 +80,10 @@ basicPages.forEach(function (page) {
 
 /* #region basic posts */
 
-app.post("/friend/addfriend", (req, res) => {
+app.post("/friends/addfriend", (req, res) => {
     var friendName = req.body.friendName;
     if (friendName != null) {
-        console.log("A post request to friend/addfriend has been made with data " + friendName);
+        console.log("A post request to friends/addfriend has been made with data " + friendName);
         if(!(req.ip in friendsMap)){
             friendsMap[req.ip] = [];
             if(friendsMap.length > maxNumberOfIpsHoldingFriends){
@@ -130,9 +130,12 @@ app.post("/languagedetector", (req, res) => {
                 basicLanguageQueryAnswers.lang = lang;
                 basicLanguageQueryAnswers.confidence = confidence;
                 currentApiCalls++;
-                fs.writeFile(".api_call_data", maxApiCalls.toString() + "\n" + currentApiCalls.toString(), (err) =>{
+                var resetDate = new Date(nextResetDate);
+                resetDate.setMonth(resetDate.getMonth() - 1);
+                fs.writeFile(".api_call_data", maxApiCalls.toString() + "\n" + currentApiCalls.toString() + "\n" + resetDate.toString(), (err) =>{
                     if(err){
-                        console.log(err)
+                        console.log(err);
+                        server.close();
                         process.exit();
                     }
                 });
@@ -185,8 +188,23 @@ fs.readFile(".api_call_data", (err, buf) =>{
     maxApiCalls = parseInt(res[0]);
     currentApiCalls = parseInt(res[1]);
     nextResetDate = new Date(res[2]);
-    nextResetDate.setUTCMonth(nextResetDate.getUTCMonth() + 1);
-    console.log("The next API reset date is: " + nextResetDate.toDateString());
+    nextResetDate.setMonth(nextResetDate.getMonth() + 1);
+    setInterval(() => {
+        if(Date.now() > nextResetDate){
+            nextResetDate.setMonth(nextResetDate.getMonth() + 1);
+            currentApiCalls = 0;
+            var resetDate = new Date(nextResetDate);
+                resetDate.setMonth(resetDate.getMonth() - 1);
+                fs.writeFile(".api_call_data", maxApiCalls.toString() + "\n" + currentApiCalls.toString() + "\n" + resetDate.toString(), (err) =>{
+                    if(err){
+                        console.log(err);
+                        server.close();
+                        process.exit();
+                    }
+                });
+        }
+    }, 50000);
+    console.log("The next API reset date is: " + nextResetDate.toString());
     console.log(`max Microsoft Text Analytics api calls: ${maxApiCalls}\ncurrent api calls: ${currentApiCalls}`);
     const server = app.listen(3000, function () {
         console.log("Server is listening on port 3000...");
