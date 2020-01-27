@@ -38,7 +38,7 @@ class basicPage {
 const basicPages = [new basicPage("The home page.", "/", "home.ejs"),
 new basicPage("A fictional website for an anti-nuke advocacy group", "/nonukes", "nukes.html", null, null, null),
 new basicPage("A fictional website for buying votes", "/votebuy", "voter.html", null, null, null),
-new basicPage("A tool to detect the language in the text you enter! I made it while learning about APIs. Check github for the backend code.", "/languagedetector", "languageDetector.ejs", {lang : null, confidence: 0}, languageDetectorInit, langaugeDetectorEnd),
+new basicPage("A tool to detect the language in the text you enter! I made it while learning about APIs. Check github for the backend code of everything, by the way.", "/languagedetector", "languageDetector.ejs", {lang : null, confidence: 0}, languageDetectorInit, langaugeDetectorEnd),
 new basicPage("A fictional blog I made while learning CSS. Please don't take the content too seriously, it was written in 10 minutes for the laughs.", "/pasha", "pasha.html", null, null, null),
 new basicPage("a list made just for your friends :)", "/friends", "friends.ejs", null , friendGetSpecial),
 new basicPage("Hi page, but it can say your name... if you enter it in the url.", "/hi/:name", "hiDynamic.ejs", { name: "" }), //if left as empty string, the name of the key will be used within params
@@ -173,13 +173,12 @@ function friendGetSpecial(req, res){
             friendsMap.splice(0,1);
         }
     }
-    basicPages[3].argumentsDictionary = { friends: friendsMap[req.ip] };
+    basicPages[5].argumentsDictionary = { friends: friendsMap[req.ip] };
 }
 
 function languageDetectorInit(req, res) {
-    basicPages[4].argumentsDictionary.lang = basicLanguageQueryAnswers.lang;
-    basicPages[4].argumentsDictionary.confidence = basicLanguageQueryAnswers.confidence;
-    console.log("yesu yesu yesu");
+    basicPages[3].argumentsDictionary.lang = basicLanguageQueryAnswers.lang;
+    basicPages[3].argumentsDictionary.confidence = basicLanguageQueryAnswers.confidence;
 }
 
 function langaugeDetectorEnd(req, res) {
