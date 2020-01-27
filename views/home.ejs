@@ -20,7 +20,11 @@
                 <div class = "col-8 col-md-5 col-lg-4 mb-4">
                     <div class="card">
                         <img src = "<%= page.imageRef %>">
-                        <font size = "3em"> <%= page.extension %> - <%= page.description %> </font>
+                        <div class = "card-body">
+                            <h3 class = "card-title"> <%= page.extension %> </h3>
+                            <p class = "card-text"> <%= page.description %> </font> </p>
+                            <a class="btn btn-primary" href="<%= page.extension%>"> Go! </a>
+                        </div>
                     </div>
                 </div>
             <% }); %> 
