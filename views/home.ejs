@@ -7,17 +7,25 @@
     <link rel='stylesheet' href='/stylesheets/home.css'>
 </head>
 <body>
-    <div class = "jumbotron jumbtoron-fluid">
+    <div class = "jumbotron jumbotron-fluid">
         <div class = "container">
             <h1 class = "display-4"> Hi </h1>
             <h3> Here is a list of some of the simpler pages I've worked on while learning web dev :)</h3>
             <h4> As these are structured like standalone websites, you'll have to press back on your browser to come back here.</h6>
         </div>
     </div>
-    <% basicPages.forEach(function(page){ %> 
-    <li><font size = "3em"> <%= page.extension %> - <%= page.description %> </font></li>
-    <% }); %> 
-    
+    <div class = "container-fluid">
+        <div class = "row justify-content-center">
+            <% basicPages.forEach(function(page){ %> 
+                <div class = "col-8 col-md-5 col-lg-4 mb-4">
+                    <div class="card">
+                        <img src = "<%= page.imageRef %>">
+                        <font size = "3em"> <%= page.extension %> - <%= page.description %> </font>
+                    </div>
+                </div>
+            <% }); %> 
+        </div>
+    </div>
 </body>
 </html>
 

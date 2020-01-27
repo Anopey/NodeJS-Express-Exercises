@@ -1,3 +1,14 @@
 .jumbotron .container{
     text-align: center;
 }
+
+.card{
+    margin-right: 10%;
+    margin-left: 10%;
+    width: 80%;
+    align-items: center;
+}
+
+.card img{
+    max-width: 100%;
+}
