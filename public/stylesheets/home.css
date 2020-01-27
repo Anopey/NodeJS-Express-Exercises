@@ -1,3 +1,12 @@
+h1{
+    text-shadow: 1px 2px 2px black;
+    text-shadow: -1px 1px 3px black;
+}
+
+#secondary{
+    text-shadow: 1px 1px 2px #585858;
+}
+
 body{
     text-align: center;
 }
@@ -11,4 +20,44 @@ body{
 
 .card img{
     max-width: 100%;
+}
+
+#github{
+    margin-right: 15px;
+    float: right;
+    background-image: url(/images/web_learning/github.png);
+    display: block;
+    text-indent: -9999px;
+    margin-top: -50px;
+    width: 160px;
+    height: 160px;
+    background-repeat: no-repeat;
+    background-size: 160px 160px;
+}
+
+@media (max-width: 1505px){
+    #github{
+        width:120px;
+        height: 120px;
+        background-size: 120px 120px;
+    }
+}
+
+@media (max-width: 1332px){
+    #github{
+        width:60px;
+        height: 60px;
+        background-size: 60px 60px;
+    }
+}
+
+@media (max-width: 574px){
+    #github{
+        margin-right: 10px;
+        margin-top: -25px;
+    }
+
+    h1{
+        margin-top:35px;
+    }
 }

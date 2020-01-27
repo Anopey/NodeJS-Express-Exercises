@@ -36,8 +36,8 @@ class basicPage {
 
 
 const basicPages = [new basicPage("The home page.", "/", "home.ejs", null, null, null, "/images/web_learning/showcase/root.png"),
-new basicPage("A fictional website for an anti-nuke advocacy group", "/nonukes", "nukes.html", null, null, null, "/images/web_learning/showcase/nonukes.png"),
-new basicPage("A fictional website for buying votes", "/votebuy", "voter.html", null, null, null, "/images/web_learning/showcase/democracy.png"),
+new basicPage("The main page of a fictional website for an anti-nuke advocacy group", "/nonukes", "nukes.html", null, null, null, "/images/web_learning/showcase/nonukes.png"),
+new basicPage("The main page of a fictional website for buying votes", "/votebuy", "voter.html", null, null, null, "/images/web_learning/showcase/democracy.png"),
 new basicPage("A tool to detect the language in the text you enter! I made it while learning about APIs. Check github for the backend code of everything, by the way.", "/languagedetector", "languageDetector.ejs", {lang : null, confidence: 0}, languageDetectorInit, langaugeDetectorEnd, "/images/web_learning/showcase/languagedetector.png"),
 new basicPage("A fictional blog I made while learning CSS. Please don't take the content too seriously, it was written in 10 minutes for the laughs.", "/pasha", "pasha.html", null, null, null, "/images/web_learning/showcase/pasha.png"),
 new basicPage("a list made just for your friends :)", "/friends", "friends.ejs", null , friendGetSpecial, null, "/images/web_learning/showcase/friends.png"),
