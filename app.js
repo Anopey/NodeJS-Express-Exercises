@@ -37,17 +37,17 @@ class basicPage {
 
 const basicPages = [new basicPage("The home page.", "/", "home.ejs"),
 new basicPage("A fictional website for an anti-nuke advocacy group", "/nonukes", "nukes.html", null, null, null, "/images/web_learning/showcase/nonukes.png"),
-new basicPage("A fictional website for buying votes", "/votebuy", "voter.html", null, null, null),
-new basicPage("A tool to detect the language in the text you enter! I made it while learning about APIs. Check github for the backend code of everything, by the way.", "/languagedetector", "languageDetector.ejs", {lang : null, confidence: 0}, languageDetectorInit, langaugeDetectorEnd),
-new basicPage("A fictional blog I made while learning CSS. Please don't take the content too seriously, it was written in 10 minutes for the laughs.", "/pasha", "pasha.html", null, null, null),
-new basicPage("a list made just for your friends :)", "/friends", "friends.ejs", null , friendGetSpecial),
-new basicPage("Hi page, but it can say your name... if you enter it in the url.", "/hi/:name", "hiDynamic.ejs", { name: "" }), //if left as empty string, the name of the key will be used within params
-new basicPage("A form I made while learning HTML.", "/basicForm", "forms.html", null, null, null),
-new basicPage("static Hi page, but technically dynamic EJS file.", "/hi", "hi.ejs"),
-new basicPage("a table for pokemons.", "/tablespokemon", "TablesPokemon.html", null, null, null),
-new basicPage("a website made for doge.", "/doge", "doggy.html", null, null, null),
-new basicPage("a list of some things I had learned up to that point.", "/thingslearned", "ThingsLearned.html", null, null, null),
-new basicPage("The first page.", "/first", "firstPage.html", null, null, null)];
+new basicPage("A fictional website for buying votes", "/votebuy", "voter.html", null, null, null, "/images/web_learning/showcase/democracy.png"),
+new basicPage("A tool to detect the language in the text you enter! I made it while learning about APIs. Check github for the backend code of everything, by the way.", "/languagedetector", "languageDetector.ejs", {lang : null, confidence: 0}, languageDetectorInit, langaugeDetectorEnd, "/images/web_learning/showcase/languagedetector.png"),
+new basicPage("A fictional blog I made while learning CSS. Please don't take the content too seriously, it was written in 10 minutes for the laughs.", "/pasha", "pasha.html", null, null, null, "/images/web_learning/showcase/pasha.png"),
+new basicPage("a list made just for your friends :)", "/friends", "friends.ejs", null , friendGetSpecial, null, "/images/web_learning/showcase/friends.png"),
+new basicPage("Hi page, but it can say your name... if you enter it in the url.", "/hi/:name", "hiDynamic.ejs", { name: "" }, null, null, "/images/web_learning/showcase/hiperson.png"), //if left as empty string, the name of the key will be used within params
+new basicPage("A form I made while learning HTML.", "/basicForm", "forms.html", null, null, null, "/images/web_learning/showcase/basicForm.png"),
+new basicPage("static Hi page, but technically dynamic EJS file.", "/hi", "hi.ejs", null, null, null, "/images/web_learning/showcase/hi.png"),
+new basicPage("a table for pokemons.", "/tablespokemon", "TablesPokemon.html", null, null, null, "/images/web_learning/showcase/pokemon.png"),
+new basicPage("a website made for doge.", "/doge", "doggy.html", null, null, null, "/images/web_learning/showcase/doge.png"),
+new basicPage("a list of some things I had learned up to that point.", "/thingslearned", "ThingsLearned.html", null, null, null, "/images/web_learning/showcase/thingsLearned.png"),
+new basicPage("The first page.", "/first", "firstPage.html", null, null, null, "/images/web_learning/showcase/first.png")];
 
 basicPages[0].argumentsDictionary = { basicPages: basicPages };
 
