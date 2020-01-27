@@ -19,14 +19,16 @@ class basicPage {
      * @param {string} fileName
      * @param {function} specialFunction
      * @param {function} endFunction
+     * @param {string} imageRef
      */
-    constructor(description, extension, fileName, argumentsDictionary, specialFunction, endFunction) {
+    constructor(description, extension, fileName, argumentsDictionary, specialFunction, endFunction, imageRef) {
         this.description = description;
         this.extension = extension;
         this.fileName = fileName;
         this.argumentsDictionary = argumentsDictionary;
         this.specialFunction = specialFunction;
         this.endFunction = endFunction;
+        this.imageRef = imageRef;
     }
 
 }
